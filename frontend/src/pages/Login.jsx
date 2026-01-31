@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import AlertBox from '../components/AlertBox';
 import { loginUser } from '../services/authApi';
 import FloatingBackground from '../components/FloatingBackground';
+import TypingTracker from '../components/TypingTracker';
 
 const Login = () => {
     const [formData, setFormData] = useState({ username: '', password: '' });
@@ -23,17 +24,30 @@ const Login = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleKeyDown = (e) => TypingTracker.handleKeyDown(e);
+    const handleKeyUp = (e) => TypingTracker.handleKeyUp(e);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+
+        const pattern = TypingTracker.getPattern();
+        console.log("Captured Keystroke Pattern:", pattern);
+
         try {
             const response = await loginUser(formData);
             // On success, save token and redirect
             localStorage.setItem('authToken', response.token || 'fake-jwt-token');
             localStorage.setItem('userEmail', formData.username);
+
+            // Clear tracker after successful use
+            TypingTracker.clear();
+
             navigate('/dashboard', { replace: true });
         } catch (err) {
             setError(err.message || 'Login failed');
+            // Optionally clear tracker on failure to retry
+            TypingTracker.clear();
         }
     };
 
@@ -123,6 +137,8 @@ const Login = () => {
                             placeholder="••••••••"
                             value={formData.password}
                             onChange={handleChange}
+                            onKeyDown={handleKeyDown}
+                            onKeyUp={handleKeyUp}
                         />
 
                         <div style={{ marginBottom: '2rem', textAlign: 'right' }}>

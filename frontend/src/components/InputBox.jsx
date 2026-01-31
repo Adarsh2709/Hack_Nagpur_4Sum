@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const InputBox = ({ label, type, placeholder, value, onChange, name, rightLabel }) => {
+const InputBox = ({ label, type, placeholder, value, onChange, name, rightLabel, onKeyDown, onKeyUp }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const isPassword = type === 'password';
@@ -34,6 +34,8 @@ const InputBox = ({ label, type, placeholder, value, onChange, name, rightLabel 
                 value={value}
                 onChange={onChange}
                 name={name}
+                onKeyDown={onKeyDown}
+                onKeyUp={onKeyUp}
             />
         </div>
     );

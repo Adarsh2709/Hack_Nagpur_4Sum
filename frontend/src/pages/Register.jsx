@@ -6,6 +6,7 @@ import { registerUser } from '../services/authApi';
 import { validateEmail, validatePassword } from '../utils/validators';
 import AlertBox from '../components/AlertBox';
 import FloatingBackground from '../components/FloatingBackground';
+import TypingTracker from '../components/TypingTracker';
 
 const Register = () => {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -24,6 +25,9 @@ const Register = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const handleKeyDown = (e) => TypingTracker.handleKeyDown(e);
+    const handleKeyUp = (e) => TypingTracker.handleKeyUp(e);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -37,15 +41,23 @@ const Register = () => {
             return;
         }
 
+        const pattern = TypingTracker.getPattern();
+        console.log("Captured Registration Pattern:", pattern);
+
         try {
             await registerUser(formData);
             // On success, set a token so ProtectedRoute allows entry
             localStorage.setItem('authToken', 'fake-jwt-token');
             localStorage.setItem('userEmail', formData.username);
+
+            // Clear tracker
+            TypingTracker.clear();
+
             // On success, redirect directly to dashboard
             navigate('/dashboard', { replace: true });
         } catch (err) {
             setError('Registration failed');
+            TypingTracker.clear();
         }
     };
 
@@ -143,6 +155,8 @@ const Register = () => {
                             placeholder="••••••••"
                             value={formData.password}
                             onChange={handleChange}
+                            onKeyDown={handleKeyDown}
+                            onKeyUp={handleKeyUp}
                         />
 
                         <div style={{ margin: '2rem 1rem', textAlign: 'center' }}>
