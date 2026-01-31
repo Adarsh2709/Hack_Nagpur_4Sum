@@ -15,5 +15,5 @@ public class VectorData {
     @JoinColumn(name = "user_id")
     private User user;
 
-    private String vector; // Placeholder for stored vector string
+    private String vector;
 }
