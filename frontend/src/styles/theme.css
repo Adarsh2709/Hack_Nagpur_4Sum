@@ -1,15 +1,17 @@
 :root {
-  --app-bg: #fdfaf3;
-  --card-bg: #ffffff;
-  --primary: #ffcc91;
-  --text-main: #1a1a1a;
-  --text-muted: #666666;
-  --border-color: #000000;
-  --neo-border: 2.5px solid #000000;
-  --neo-shadow: 6px 6px 0px 0px #000000;
-  --radius-lg: 32px;
-  --radius-md: 12px;
-  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+  --app-bg: #0a0a0a;
+  --card-bg: #111111;
+  --primary: #00ff9d;
+  --secondary: #00b8ff;
+  --accent: #ff0055;
+  --text-main: #ffffff;
+  --text-muted: #a0a0a0;
+  --border-color: #00ff9d;
+  --neo-border: 2px solid #00ff9d;
+  --neo-shadow: 4px 4px 0px 0px #00ff9d;
+  --radius-lg: 20px;
+  --radius-md: 10px;
+  --font-main: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 * {
