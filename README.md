@@ -1,5 +1,5 @@
 <h1 align="center">
-  🔐 Secure Auth System
+Secure Auth System
 </h1>
 
 <p align="center">
@@ -14,7 +14,7 @@
 
 ---
 
-## 📌 About the Project
+##  About the Project
 
 This project is a **secure authentication system** that:
 - Allows users to **register and login**
@@ -25,7 +25,7 @@ This project is a **secure authentication system** that:
 
 ---
 
-## 🏗️ Project Structure
+##  Project Structure
 secure-auth-system/
 │
 ├── frontend/ # React / Vite frontend
@@ -49,7 +49,7 @@ secure-auth-system/
 
 ---
 
-## 🎨 Frontend
+##  Frontend
 
 <p align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50">
@@ -66,7 +66,7 @@ secure-auth-system/
 
 ---
 
-## ⚙️ Backend
+##  Backend
 
 <p align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Spring_Boot.svg" alt="Spring Boot" width="55">
@@ -82,7 +82,7 @@ secure-auth-system/
 
 ---
 
-## 🧠 Machine Learning
+##  Machine Learning
 
 <p align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" width="45">
@@ -97,7 +97,7 @@ secure-auth-system/
 
 ---
 
-## 🔄 System Flow
+##  System Flow
 
 User → Frontend → Backend → ML → Backend → Frontend
 
@@ -109,7 +109,7 @@ User → Frontend → Backend → ML → Backend → Frontend
 
 ---
 
-## 🐳 Docker & Deployment
+##  Docker & Deployment
 
 <p align="center">
   <img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" alt="Docker" width="60">
