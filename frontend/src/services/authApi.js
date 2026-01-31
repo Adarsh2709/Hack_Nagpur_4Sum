@@ -1,21 +1,43 @@
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/auth';
+
 export const loginUser = async (credentials) => {
-    // Mock API call
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            if (credentials.username === 'admin' && credentials.password === 'password') {
-                resolve({ success: true, token: 'fake-jwt-token' });
-            } else {
-                reject({ success: false, message: 'Invalid credentials' });
-            }
-        }, 1000);
+    const response = await fetch(`${API_BASE_URL}/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: credentials.email || credentials.username, // Handle both username/email field names
+            password: credentials.password,
+            vector: credentials.vector || null
+        }),
     });
+
+    if (!response.ok) {
+        const error = await response.text();
+        throw new Error(error || 'Login failed');
+    }
+
+    return await response.json();
 };
 
 export const registerUser = async (userData) => {
-    // Mock API call
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve({ success: true, message: 'Registration successful' });
-        }, 1000);
+    const response = await fetch(`${API_BASE_URL}/register`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: userData.email,
+            password: userData.password,
+            vector: userData.vector || null
+        }),
     });
+
+    if (!response.ok) {
+        const error = await response.text();
+        throw new Error(error || 'Registration failed');
+    }
+
+    return await response.json();
 };

@@ -7,7 +7,7 @@ import com.secureauth.model.VectorData;
 import com.secureauth.repository.UserRepository;
 import com.secureauth.repository.VectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,6 +20,9 @@ public class AuthService {
     private UserRepository userRepository;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private VectorRepository vectorRepository;
 
     @Autowired
@@ -28,7 +31,7 @@ public class AuthService {
     public AuthResponse registerUser(AuthRequest request) {
         User user = new User();
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
         if (request.getVector() != null) {
@@ -47,7 +50,7 @@ public class AuthService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!user.getPassword().equals(request.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid password");
         }
 
