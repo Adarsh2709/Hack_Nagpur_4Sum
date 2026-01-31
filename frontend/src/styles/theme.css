@@ -1,0 +1,26 @@
+:root {
+  --app-bg: #fdfaf3;
+  --card-bg: #ffffff;
+  --primary: #ffcc91;
+  --text-main: #1a1a1a;
+  --text-muted: #666666;
+  --border-color: #000000;
+  --neo-border: 2.5px solid #000000;
+  --neo-shadow: 6px 6px 0px 0px #000000;
+  --radius-lg: 32px;
+  --radius-md: 12px;
+  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--app-bg);
+  font-family: var(--font-main);
+  margin: 0;
+  padding: 0;
+  color: var(--text-main);
+  overflow-x: hidden;
+}
