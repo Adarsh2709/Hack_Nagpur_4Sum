@@ -1,0 +1,29 @@
+services:
+  # 1. ML Biometric Service (Python)
+  - type: web
+    name: biokey-ml-service
+    env: docker
+    dockerContext: secure-auth-system/ml-python
+    dockerfilePath: Dockerfile
+    plan: free
+    region: ohio
+
+  # 2. Secure Auth Backend (Java)
+  - type: web
+    name: biokey-backend
+    env: docker
+    dockerContext: secure-auth-system/backend
+    dockerfilePath: Dockerfile
+    plan: free
+    region: ohio
+    envVars:
+      - key: ML_SERVICE_URL
+        fromService:
+          name: biokey-ml-service
+          type: web
+          property: host
+        path: /api/ml/process
+      - key: SPRING_DATA_MONGODB_URI
+        value: mongodb+srv://admin:adarshbgmi27@cluster0.ewsq9ts.mongodb.net/?appName=Cluster0
+      - key: FRONTEND_URL
+        value: https://biokey-frontend.vercel.app # Example, user will update this

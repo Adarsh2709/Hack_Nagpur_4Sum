@@ -1,18 +1,9 @@
 spring:
   application:
     name: secure-auth-system
-  datasource:
-    url: jdbc:mysql://localhost:3306/secure_auth?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
-    username: root
-    password: password
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+  data:
+    mongodb:
+      uri: mongodb+srv://admin:password123@cluster0.ewsq9ts.mongodb.net/?appName=Cluster0
 
 server:
   port: 8080
