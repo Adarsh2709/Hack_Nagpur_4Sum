@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center">
-  A military-grade secure authentication system using Keystroke Dynamics & Real-time Fraud Detection.
+  A secure authentication system using Keystroke Dynamics & Real-time Fraud Detection.
   <br>
   Built with React (Neo-Brutalism), Spring Boot, Python (ML), and MongoDB Atlas.
 </p>
