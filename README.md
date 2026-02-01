@@ -1,116 +1,133 @@
 <h1 align="center">
-   Secure Auth System
+   BIOKEY_GUARD: Behavioral Biometric Authentication
 </h1>
 
 <p align="center">
-  A secure authentication system with fraud detection  
+  A military-grade secure authentication system using Keystroke Dynamics & Real-time Fraud Detection.
   <br>
-  Built using Frontend, Backend, and Machine Learning
+  Built with React (Neo-Brutalism), Spring Boot, Python (ML), and MongoDB Atlas.
 </p>
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=18&duration=3000&pause=1000&color=36BCF7&center=true&vCenter=true&width=600&lines=Secure+Authentication;Fraud+Detection+System;Java+%2B+React+%2B+Python+ML">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=18&duration=3000&pause=1000&color=00FF9D&center=true&vCenter=true&width=600&lines=Behavioral+Biometrics;Keystroke+Dynamics;Real-time+Fraud+Detection;Continuous+Authentication">
 </p>
 
 ---
 
-##  Project Structure
+## 🚀 Key Features
 
-secure-auth-system/
+### 🧠 Behavioral Biometrics
+- **Keystroke Dynamics**: Analyzes **Dwell Time** (how long you hold a key) and **Flight Time** (speed between keys) to create a unique user profile.
+- **16-Dimensional Vectors**: Converts typing patterns into high-dimensional feature vectors for ML processing.
+- **Continuous Verification**: Identity is verified not just by *what* you type, but *how* you type it.
+
+### 🛡️ Advanced Security
+- **10-Pass Enrollment**: Users must type their password 10 times during registration to build a robust statistical model.
+- **Anti-Autofill & Decoy Inputs**: Prevents browser autofill and bot interactions using hidden trap fields.
+- **Strict Confidence Threshold**: ML model enforces an **85% confidence score** to grant access.
+- **MongoDB Atlas Vector Store**: Secure, cloud-native storage for biometric profiles.
+
+### 🎨 Neo-Brutalism UI
+- **Cyberpunk Aesthetic**: High-contrast, "Soft-Brutalism" design with floating elements and dynamic backgrounds.
+- **Visual Feedback**: Real-time typing tracking, green-dot progress bars, and vibration/shake effects for error feedback.
+
+---
+
+## 🏗️ Project Structure
+
+```
+Hack_Nagpur_4Sum/
 │
-├── frontend/ # React / Vite frontend
+├── frontend/             # React + Vite (Neo-Brutalism UI)
+│   ├── src/
+│   │   ├── components/   # TypingTracker.js, InputBox.jsx
+│   │   ├── pages/        # Login, Register, Dashboard
+│   │   └── styles/       # neo.css, theme.css
 │
-├── backend/ # Spring Boot backend
-│ ├── controller/
-│ ├── repository/
-│ ├── config/
-│ ├── test/
-│ ├── service/
-│ ├── security/
-│ ├── model/
-│ └── utils/
+├── backend/              # Spring Boot (Java 17)
+│   ├── controller/       # Auth & Health Endpoints
+│   ├── service/          # Biometric Logic & ML Bridge
+│   ├── repository/       # MongoDB Interfaces
+│   └── config/           # Security & CORS
 │
-├── ml-python/ # Python ML module
-│ ├── hmm_svm_pipeline.py
-│ └── example.py
+├── ml-python/            # Python Flask ML Service
+│   ├── app.py            # API Gateway for ML
+│   └── hmm_svm_pipeline.py # One-Class SVM + HMM Model
 │
-└── docker-compose.yml # Docker orchestration
-
+└── docker-compose.yml    # Container Orchestration
+```
 
 ---
 
-##  Frontend
+## 💻 Tech Stack
 
-<p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React" width="50">
-  <img src="https://vitejs.dev/logo.svg" alt="Vite" width="50">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" width="45">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/CSS.3.svg" alt="CSS" width="45">
+### Frontend
+<p>
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white">
+  <img src="https://img.shields.io/badge/Neo_Brutalism-000000?style=for-the-badge&logo=css3&logoColor=white">
 </p>
 
-### What it does
-- Login and Registration pages
-- Clean Neo-Brutalism UI
-- Reusable components
-- Communicates with backend APIs
-
----
-
-##  Backend
-
-<p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/Spring_Boot.svg" alt="Spring Boot" width="55">
-  <img src="https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo.svg" alt="Java" width="45">
-  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/hibernate/hibernate-original.svg" alt="Hibernate" width="50">
+### Backend
+<p>
+  <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white">
+  <img src="https://img.shields.io/badge/Java_17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white">
+  <img src="https://img.shields.io/badge/MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white">
 </p>
 
-### What it does
-- Handles authentication APIs
-- Manages database operations
-- Applies security rules
-- Prepares data for fraud detection
-
----
-
-##  Machine Learning
-
-<p align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" width="45">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg" alt="Scikit Learn" width="70">
+### Machine Learning
+<p>
+  <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+  <img src="https://img.shields.io/badge/Scikit_Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white">
+  <img src="https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white">
 </p>
 
-### What it does
-- Uses **Hidden Markov Model (HMM)**
-- Uses **One-Class SVM**
-- Detects abnormal behavior
-- Generates fraud confidence score
+---
+
+## 🔄 System Flow
+
+`User` → `Frontend (Captures Keystrokes)` → `Backend (Validates Creds)` → `ML (Calculates Similarity)` → `Backend (Enforces Threshold)` → `Access Granted/Denied`
+
+1. **Enrollment**: User types password 10 times. Frontend extracts 10 vectors -> Backend stores in MongoDB.
+2. **Login**: User types password once. Frontend extracts 1 vector.
+3. **Verification**: Backend sends stored vectors + new vector to Python ML Service.
+4. **Decision**: ML Model (SVM/HMM) calculates similarity score. If score > 0.85, access is granted.
 
 ---
 
-##  System Flow
+## 🚀 How to Run
 
+### Quick Start (Launcher)
+```powershell
+./run_presentation.ps1
+```
 
+### Manual Setup
 
-User → Frontend → Backend → ML → Backend → Frontend
+**1. Database**
+Ensure `application.yml` has valid MongoDB Atlas credentials.
 
+**2. Start ML Service**
+```bash
+cd ml-python
+pip install -r requirements.txt
+python app.py
+```
 
-1. User logs in
-2. Backend validates request
-3. ML checks for fraud
-4. Final result is returned
+**3. Start Backend**
+```bash
+cd backend
+mvn spring-boot:run
+```
+
+**4. Start Frontend**
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ---
-
-##  Docker & Deployment
-
 <p align="center">
-  <img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" alt="Docker" width="60">
+  Made with ❤️ for Hack Nagpur
 </p>
-
-- Backend and ML run as separate containers
-- Managed using Docker Compose
-- Easy to run and deploy
-
----
-
-
