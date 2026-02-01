@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const InputBox = ({ label, type, placeholder, value, onChange, name, rightLabel, onKeyDown, onKeyUp }) => {
+const InputBox = ({ label, type, placeholder, value, onChange, name, rightLabel, onKeyDown, onKeyUp, autoComplete, id }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const isPassword = type === 'password';
@@ -28,6 +28,8 @@ const InputBox = ({ label, type, placeholder, value, onChange, name, rightLabel,
                 )}
             </div>
             <input
+                id={id}
+                autoComplete={autoComplete}
                 className="soft-input"
                 type={currentType}
                 placeholder={placeholder}

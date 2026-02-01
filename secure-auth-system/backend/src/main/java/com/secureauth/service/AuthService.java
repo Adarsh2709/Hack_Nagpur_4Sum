@@ -8,10 +8,10 @@ import com.secureauth.repository.UserRepository;
 import com.secureauth.repository.VectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import java.util.List;
-import java.util.Map;
+import org.springframework.stereotype.Service;
+import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.Arrays;
 
 @Service
 public class AuthService {
@@ -29,16 +29,28 @@ public class AuthService {
     private SimilarityService similarityService;
 
     public AuthResponse registerUser(AuthRequest request) {
-        User user = new User();
+        // Overwrite if exists, or create new
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElse(new User());
+        
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        userRepository.save(user);
-
-        if (request.getVector() != null) {
-            VectorData vector = new VectorData();
-            vector.setUser(user);
-            vector.setVector(request.getVector().toString());
-            vectorRepository.save(vector);
+        user = userRepository.save(user);
+        
+        // Clear old vectors
+        List<VectorData> oldVectors = vectorRepository.findByUserId(user.getId());
+        if (oldVectors != null && !oldVectors.isEmpty()) {
+            vectorRepository.deleteAll(oldVectors);
+        }
+        
+        // Save new vectors
+        if (request.getVectors() != null) {
+            for (List<Double> vec : request.getVectors()) {
+                VectorData vector = new VectorData();
+                vector.setUser(user);
+                vector.setVector(vec.toString());
+                vectorRepository.save(vector);
+            }
         }
 
         AuthResponse response = new AuthResponse();
@@ -74,8 +86,14 @@ public class AuthService {
                 double[] candidate = request.getVector().stream().mapToDouble(Double::doubleValue).toArray();
                 Map<String, Object> mlResult = similarityService.calculateSimilarity(enrollment, candidate);
                 
-                response.setMessage("Login verified with biometric confidence: " + mlResult.get("final_confidence"));
-                response.setToken("fake-jwt-token-" + mlResult.get("final_confidence"));
+                double confidence = (double) mlResult.getOrDefault("final_confidence", 0.0);
+                
+                if (confidence < 0.85) {
+                    throw new RuntimeException("Biometric verification failed: Confidence " + String.format("%.2f", confidence) + " below 85%");
+                }
+                
+                response.setMessage("Login verified with biometric confidence: " + String.format("%.2f", confidence));
+                response.setToken("fake-jwt-token-" + confidence);
             } else {
                 response.setMessage("Login success (no biometric profile)");
                 response.setToken("fake-jwt-token");
@@ -86,6 +104,15 @@ public class AuthService {
         }
         
         return response;
+    }
+
+    public boolean isDatabaseConnected() {
+        try {
+            userRepository.count();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private double[] parseVector(String vecStr) {

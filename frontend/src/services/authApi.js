@@ -14,11 +14,17 @@ export const loginUser = async (credentials) => {
     });
 
     if (!response.ok) {
-        const error = await response.text();
-        throw new Error(error || 'Login failed');
+        const errorText = await response.text();
+        try {
+            const errorJson = JSON.parse(errorText);
+            throw new Error(errorJson.message || 'Login failed');
+        } catch (e) {
+            throw new Error(errorText || 'Login failed');
+        }
     }
 
-    return await response.json();
+    const data = await response.json();
+    return data;
 };
 
 export const registerUser = async (userData) => {
@@ -35,9 +41,15 @@ export const registerUser = async (userData) => {
     });
 
     if (!response.ok) {
-        const error = await response.text();
-        throw new Error(error || 'Registration failed');
+        const errorText = await response.text();
+        try {
+            const errorJson = JSON.parse(errorText);
+            throw new Error(errorJson.message || 'Registration failed');
+        } catch (e) {
+            throw new Error(errorText || 'Registration failed');
+        }
     }
 
-    return await response.json();
+    const data = await response.json();
+    return data;
 };

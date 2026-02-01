@@ -56,8 +56,8 @@ const Dashboard = () => {
                     <Link to="#" className="nav-link">Security</Link>
                     <Link to="#" className="nav-link">Profile</Link>
                 </div>
-                <button className="soft-btn" style={{ width: 'auto', padding: '8px 20px', fontSize: '0.8rem', background: '#111' }} onClick={handleLogout}>
-                    TERMINATE
+                <button className="soft-btn" style={{ width: 'auto', padding: '8px 25px', fontSize: '0.85rem', background: 'var(--accent)', color: 'white', border: 'none', boxShadow: '0 0 15px rgba(255,0,85,0.4)' }} onClick={handleLogout}>
+                    TERMINATE_SESSION
                 </button>
             </nav>
 

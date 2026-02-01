@@ -11,7 +11,7 @@ def process_biometrics():
     enrollment = np.array(data['enrollment'])
     candidate = np.array(data['candidate'])
     
-    threshold = data.get('threshold', 0.65)
+    threshold = data.get('threshold', 0.70)
     
     try:
         result = pipeline.process(enrollment, candidate, create_profile_threshold=threshold)
@@ -20,4 +20,4 @@ def process_biometrics():
         return jsonify({"error": str(e)}), 400
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5005)

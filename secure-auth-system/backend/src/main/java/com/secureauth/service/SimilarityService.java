@@ -16,7 +16,7 @@ public class SimilarityService {
 
     private static final String ML_SERVICE_URL = System.getenv("ML_SERVICE_URL") != null 
         ? System.getenv("ML_SERVICE_URL") 
-        : "http://localhost:5000/api/ml/process";
+        : "http://localhost:5005/api/ml/process";
 
     public Map<String, Object> calculateSimilarity(List<double[]> enrollment, double[] candidate) {
         Map<String, Object> request = new HashMap<>();

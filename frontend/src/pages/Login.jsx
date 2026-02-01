@@ -8,7 +8,7 @@ import FloatingBackground from '../components/FloatingBackground';
 import TypingTracker from '../components/TypingTracker';
 
 const Login = () => {
-    const [formData, setFormData] = useState({ username: '', password: '' });
+    const [formData, setFormData] = useState({ email: '', password: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -31,22 +31,29 @@ const Login = () => {
         e.preventDefault();
         setError('');
 
+        // Anti-autofill check: If pattern is empty, it means keys weren't used
         const pattern = TypingTracker.getPattern();
+        const isActuallyTyped = pattern.some(v => v !== 0);
+
+        if (!isActuallyTyped) {
+            setError('SECURITY_ERROR: Biometric signature missing. Please type your access code manually.');
+            return;
+        }
+
         console.log("Captured Keystroke Pattern:", pattern);
 
         try {
-            const response = await loginUser(formData);
-            // On success, save token and redirect
+            const response = await loginUser({
+                email: formData.email,
+                password: formData.password,
+                vector: pattern
+            });
             localStorage.setItem('authToken', response.token || 'fake-jwt-token');
-            localStorage.setItem('userEmail', formData.username);
-
-            // Clear tracker after successful use
+            localStorage.setItem('userEmail', formData.email);
             TypingTracker.clear();
-
             navigate('/dashboard', { replace: true });
         } catch (err) {
             setError(err.message || 'Login failed');
-            // Optionally clear tracker on failure to retry
             TypingTracker.clear();
         }
     };
@@ -122,13 +129,22 @@ const Login = () => {
 
                     <AlertBox message={error} type="error" />
 
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} autoComplete="off">
+                        {/* DECOY INPUTS FOR ANTI-AUTOFILL */}
+                        <div style={{ position: 'absolute', opacity: 0, height: 0, width: 0, overflow: 'hidden' }}>
+                            <input type="text" name="fake_user" tabIndex="-1" />
+                            <input type="password" name="fake_pass" tabIndex="-1" />
+                        </div>
+
                         <InputBox
-                            label="OPERATOR_ID"
-                            name="username"
-                            placeholder="operator_01"
-                            value={formData.username}
-                            onChange={handleChange}
+                            label="OPERATOR_EMAIL"
+                            name="email"
+                            type="email"
+                            placeholder="operator@biokey.internal"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            autoComplete="off"
+                            id="login_em_r82j"
                         />
                         <InputBox
                             label="ACCESS_CODE"
@@ -136,9 +152,11 @@ const Login = () => {
                             type="password"
                             placeholder="••••••••"
                             value={formData.password}
-                            onChange={handleChange}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             onKeyDown={handleKeyDown}
                             onKeyUp={handleKeyUp}
+                            autoComplete="new-password"
+                            id="login_pw_x9k2"
                         />
 
                         <div style={{ marginBottom: '2rem', textAlign: 'right' }}>

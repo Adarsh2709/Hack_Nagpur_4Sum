@@ -10,10 +10,13 @@ import TypingTracker from '../components/TypingTracker';
 
 const Register = () => {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+    const [enrollmentPasses, setEnrollmentPasses] = useState([]);
+    const [currentPass, setCurrentPass] = useState(1);
     const [error, setError] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
 
-    // Redirection logic: If already authenticated, go to dashboard
+    // Redirection logic... (keep existing)
     useEffect(() => {
         const token = localStorage.getItem('authToken');
         if (token) {
@@ -42,21 +45,32 @@ const Register = () => {
         }
 
         const pattern = TypingTracker.getPattern();
-        console.log("Captured Registration Pattern:", pattern);
+        console.log(`Captured Pass ${currentPass}:`, pattern);
 
-        try {
-            await registerUser(formData);
-            // On success, set a token so ProtectedRoute allows entry
-            localStorage.setItem('authToken', 'fake-jwt-token');
-            localStorage.setItem('userEmail', formData.username);
+        const newPasses = [...enrollmentPasses, pattern];
 
-            // Clear tracker
+        if (currentPass < 10) {
+            setEnrollmentPasses(newPasses);
+            setCurrentPass(currentPass + 1);
+            setFormData({ ...formData, password: '' }); // Clear password for next pass
             TypingTracker.clear();
+            return;
+        }
 
-            // On success, redirect directly to dashboard
+        // Final pass
+        setIsSubmitting(true);
+        try {
+            await registerUser({
+                ...formData,
+                vectors: newPasses
+            });
+            localStorage.setItem('authToken', 'fake-jwt-token');
+            localStorage.setItem('userEmail', formData.email);
+            TypingTracker.clear();
             navigate('/dashboard', { replace: true });
         } catch (err) {
-            setError('Registration failed');
+            setError(err.message || 'Registration failed');
+            setIsSubmitting(false);
             TypingTracker.clear();
         }
     };
@@ -117,28 +131,54 @@ const Register = () => {
 
                     {/* BIOMETRIC INDICATOR ABOVE TITLE */}
                     <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-                        <div className="capture-ready-text" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-                            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--primary)', boxShadow: '0 0 8px var(--primary)' }}></div>
-                            INITIALIZING_BIOMETRIC_SIGNATURE
+                        <div className="capture-ready-text" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: currentPass > 1 ? 'var(--secondary)' : 'var(--primary)' }}>
+                            <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: currentPass > 1 ? 'var(--secondary)' : 'var(--primary)', boxShadow: `0 0 8px ${currentPass > 1 ? 'var(--secondary)' : 'var(--primary)'}` }}></div>
+                            {currentPass < 10 ? `ENROLLMENT_PASS_${currentPass}_OF_10` : 'FINALIZING_BIOMETRIC_SIGNATURE'}
                         </div>
+                    </div>
+
+                    {/* PROGRESS INDICATOR DOTS */}
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginBottom: '2rem' }}>
+                        {[...Array(10)].map((_, i) => (
+                            <div
+                                key={i}
+                                style={{
+                                    width: '12px',
+                                    height: '12px',
+                                    borderRadius: '50%',
+                                    border: `2px solid ${i < currentPass - 1 ? 'var(--primary)' : 'rgba(255,255,255,0.2)'}`,
+                                    background: i < currentPass - 1 ? 'var(--primary)' : 'transparent',
+                                    boxShadow: i < currentPass - 1 ? '0 0 10px var(--primary)' : 'none',
+                                    transition: 'all 0.3s'
+                                }}
+                            />
+                        ))}
                     </div>
 
                     <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
                         <div style={{ display: 'inline-block', padding: '8px 24px', background: 'rgba(0,184,255,0.05)', border: '1px solid var(--secondary)', borderRadius: '40px', marginBottom: '1rem', fontSize: '0.7rem', fontWeight: '900', letterSpacing: '2px', color: 'var(--secondary)' }}>
-                            NEW_OPERATOR_REGISTRATION
+                            {currentPass === 1 ? 'NEW_OPERATOR_REGISTRATION' : 'CONTINUE_CAPTURING_PATTERN'}
                         </div>
-                        <h1 style={{ fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-1.5px', color: '#FFF' }}>CREATE_PROFILE</h1>
+                        <h1 style={{ fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-1.5px', color: '#FFF' }}>
+                            {currentPass === 10 ? 'FINAL_INIT' : `PASS_${currentPass}`}
+                        </h1>
                     </div>
 
                     <AlertBox message={error} type="error" />
 
                     <form onSubmit={handleSubmit}>
+                        {/* DECOY INPUTS FOR ANTI-AUTOFILL */}
+                        <input type="text" name="decoy_username" style={{ position: 'absolute', top: '-1000px', left: '-1000px' }} tabIndex="-1" autoComplete="off" />
+                        <input type="password" name="decoy_password" style={{ position: 'absolute', top: '-1000px', left: '-1000px' }} tabIndex="-1" autoComplete="off" />
+
                         <InputBox
                             label="FULL_NAME"
                             name="username"
                             placeholder="Operator Name"
                             value={formData.username}
                             onChange={handleChange}
+                            autoComplete="off"
+                            id="reg_nm_v2x5"
                         />
                         <InputBox
                             label="EMAIL_ADDRESS"
@@ -147,6 +187,8 @@ const Register = () => {
                             placeholder="operator@biokey.internal"
                             value={formData.email}
                             onChange={handleChange}
+                            autoComplete="off"
+                            id="reg_em_k8p1"
                         />
                         <InputBox
                             label="CHOOSE_ACCESS_CODE"
@@ -157,6 +199,8 @@ const Register = () => {
                             onChange={handleChange}
                             onKeyDown={handleKeyDown}
                             onKeyUp={handleKeyUp}
+                            autoComplete="new-password"
+                            id="reg_pw_z9w4"
                         />
 
                         <div style={{ margin: '2rem 1rem', textAlign: 'center' }}>
@@ -165,7 +209,17 @@ const Register = () => {
                             </p>
                         </div>
 
-                        <Button text="INITIALIZE_PROFILE" type="submit" variant="primary" style={{ height: '55px', fontSize: '1.1rem' }} />
+                        <Button
+                            text={currentPass === 10 ? "FINALIZE_ENROLLMENT" : "INITIALIZE_PROFILE"}
+                            type="submit"
+                            variant="primary"
+                            style={{
+                                height: '55px',
+                                fontSize: '1.1rem',
+                                background: currentPass === 10 ? 'var(--secondary)' : 'var(--primary)',
+                                borderColor: currentPass === 10 ? 'var(--secondary)' : 'var(--primary)'
+                            }}
+                        />
                     </form>
 
                     <div style={{ textAlign: 'center', marginTop: '2.5rem', fontSize: '0.9rem' }}>

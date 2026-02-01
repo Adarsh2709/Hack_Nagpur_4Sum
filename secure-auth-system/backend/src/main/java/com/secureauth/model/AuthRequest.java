@@ -8,4 +8,5 @@ public class AuthRequest {
     private String email;
     private String password;
     private List<Double> vector;
+    private List<List<Double>> vectors;
 }
