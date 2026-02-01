@@ -14,26 +14,26 @@
 
 ---
 
-## 🚀 Key Features
+##  Key Features
 
-### 🧠 Behavioral Biometrics
+###  Behavioral Biometrics
 - **Keystroke Dynamics**: Analyzes **Dwell Time** (how long you hold a key) and **Flight Time** (speed between keys) to create a unique user profile.
 - **16-Dimensional Vectors**: Converts typing patterns into high-dimensional feature vectors for ML processing.
 - **Continuous Verification**: Identity is verified not just by *what* you type, but *how* you type it.
 
-### 🛡️ Advanced Security
+###  Advanced Security
 - **10-Pass Enrollment**: Users must type their password 10 times during registration to build a robust statistical model.
 - **Anti-Autofill & Decoy Inputs**: Prevents browser autofill and bot interactions using hidden trap fields.
 - **Strict Confidence Threshold**: ML model enforces an **85% confidence score** to grant access.
 - **MongoDB Atlas Vector Store**: Secure, cloud-native storage for biometric profiles.
 
-### 🎨 Neo-Brutalism UI
+###  Neo-Brutalism UI
 - **Cyberpunk Aesthetic**: High-contrast, "Soft-Brutalism" design with floating elements and dynamic backgrounds.
 - **Visual Feedback**: Real-time typing tracking, green-dot progress bars, and vibration/shake effects for error feedback.
 
 ---
 
-## 🏗️ Project Structure
+##  Project Structure
 
 ```
 Hack_Nagpur_4Sum/
@@ -59,7 +59,7 @@ Hack_Nagpur_4Sum/
 
 ---
 
-## 💻 Tech Stack
+##  Tech Stack
 
 ### Frontend
 <p>
@@ -84,7 +84,7 @@ Hack_Nagpur_4Sum/
 
 ---
 
-## 🔄 System Flow
+##  System Flow
 
 `User` → `Frontend (Captures Keystrokes)` → `Backend (Validates Creds)` → `ML (Calculates Similarity)` → `Backend (Enforces Threshold)` → `Access Granted/Denied`
 
@@ -95,7 +95,7 @@ Hack_Nagpur_4Sum/
 
 ---
 
-## 🚀 How to Run
+##  How to Run
 
 ### Quick Start (Launcher)
 ```powershell
@@ -128,6 +128,3 @@ npm run dev
 ```
 
 ---
-<p align="center">
-  Made with ❤️ for Hack Nagpur
-</p>
